@@ -1,4 +1,4 @@
-package datastructures.doublylinkedlist;
+package datastructures.queue;
 
 public class Main {
 

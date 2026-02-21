@@ -29,16 +29,16 @@ public class LinkedList {
         }
     }
 
-    public void getHead() {
-        System.out.println("Head: " + head.value);
+    public Node getHead() {
+        return head;
     }
 
-    public void getTail() {
-        System.out.println("Tail: " + tail.value);
+    public Node getTail() {
+        return tail;
     }
 
-    public void getLength() {
-        System.out.println("Length: " + length);
+    public int getLength() {
+        return length;
     }
 
     public void append(int value) {
@@ -171,6 +171,88 @@ public class LinkedList {
             temp.next = before;
             before = temp;
             temp = after;
+        }
+    }
+
+    /*
+    * Return the middle node when the length is not provided.
+    * Uses Floyd's tortoise and hare algorithm.
+    * */
+    public Node findMiddleNode() {
+        if (head == null) return null;
+
+        Node slow = head;
+        Node fast = head;
+
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        return slow;
+    }
+
+    /*
+    *  Return true if the linked list has a cycle.
+    * Uses Floyd's cycle-finding algorithm (tortoise and hare).
+    * */
+    public boolean hasCycle() {
+        Node slow = head;
+        Node fast = head;
+
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+
+            if (slow == fast) return true;
+        }
+
+        return false;
+    }
+
+    /*
+    * Return the Kth node from the end of the list.
+    * Uses Floyd's tortoise and hare algorithm for lists with no length.
+    * K is 1-based.
+    * */
+    public Node getKthFromEnd(int k) {
+        if (head == null || k == 0) return null;
+
+        Node fast = head;
+        Node slow = head;
+
+        for (int i = 0; i < k; i++) {
+            if (fast == null) return null;
+            fast = fast.next;
+        }
+
+        while (fast != null) {
+            slow = slow.next;
+            fast = fast.next;
+        }
+
+        return slow;
+    }
+
+    /*
+    * Implementation with a Set (HashSet) has a time complexity of O(n).
+    * Implementation without using a Set has a time complexity of O(n^2).
+    * */
+    public void removeDuplicates() {
+        Node current = head;
+
+        while (current != null) {
+            Node runner = current;
+            while (runner.next != null) {
+                if(runner.next.value == current.value) {
+                    runner.next = runner.next.next;
+                    length--;
+                } else {
+                    runner = runner.next;
+                }
+            }
+
+            current = current.next;
         }
     }
 }
