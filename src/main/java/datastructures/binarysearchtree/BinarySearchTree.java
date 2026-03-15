@@ -80,7 +80,7 @@ public class BinarySearchTree {
         rInsert(root, value);
     }
 
-    public Node rInsert(Node currentNode, int value) {
+    private Node rInsert(Node currentNode, int value) {
         if (currentNode == null) return new Node(value);
 
         if (value < currentNode.value) {
@@ -90,6 +90,42 @@ public class BinarySearchTree {
         }
 
         return currentNode;
+    }
+
+    public void deleteNode(int value) {
+        deleteNode(root, value);
+    }
+
+    private Node deleteNode(Node currentNode, int value) {
+        if (currentNode == null) return null;
+
+        if (value < currentNode.value) {
+            currentNode.left = deleteNode(currentNode.left, value);
+        } else if (value > currentNode.value) {
+            currentNode.right = deleteNode(currentNode.right, value);
+        } else {
+            if (currentNode.left == null && currentNode.right == null) {
+                return null;
+            } else if (currentNode.left == null) {
+                currentNode = currentNode.right;
+            } else if (currentNode.right == null) {
+                currentNode = currentNode.left;
+            } else {
+                int subTreeMin = minValue(currentNode.right);
+                currentNode.value = subTreeMin;
+                currentNode.right = deleteNode(currentNode.right, subTreeMin);
+            }
+        }
+
+        return currentNode;
+    }
+
+    private int minValue(Node currentNode) {
+        while (currentNode.left != null) {
+            currentNode = currentNode.left;
+        }
+
+        return currentNode.value;
     }
 
     // Search
@@ -117,7 +153,7 @@ public class BinarySearchTree {
     }
 
     // Depth First Search
-    
+
     public ArrayList<Integer> DFSPreOrder() {
         ArrayList<Integer> results = new ArrayList<>();
 
@@ -137,5 +173,4 @@ public class BinarySearchTree {
         new Traverse(root);
         return results;
     }
-
 }
