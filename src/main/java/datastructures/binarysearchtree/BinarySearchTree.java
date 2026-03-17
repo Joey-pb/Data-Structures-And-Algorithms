@@ -153,7 +153,7 @@ public class BinarySearchTree {
     }
 
     // Depth First Search
-
+    // Preorder order of operations: Root -> Left -> Right
     public ArrayList<Integer> DFSPreOrder() {
         ArrayList<Integer> results = new ArrayList<>();
 
@@ -164,6 +164,45 @@ public class BinarySearchTree {
                 if (currentNode.left != null) {
                     new Traverse(currentNode.left);
                 }
+                if (currentNode.right != null) {
+                    new Traverse(currentNode.right);
+                }
+            }
+        }
+
+        new Traverse(root);
+        return results;
+    }
+
+    // Postorder order of operations: Left -> Right -> Root
+    public ArrayList<Integer> DFSPostOrder() {
+        ArrayList<Integer> results = new ArrayList<>();
+
+        class Traverse {
+            Traverse(Node currentNode) {
+                if (currentNode.left != null) {
+                    new Traverse(currentNode.left);
+                }
+                if (currentNode.right != null) {
+                    new Traverse(currentNode.right);
+                }
+                results.add(currentNode.value);
+            }
+        }
+
+        new Traverse(root);
+        return results;
+    }
+
+    public ArrayList<Integer> DFSInOrder() {
+        ArrayList<Integer> results = new ArrayList<>();
+
+        class Traverse {
+            Traverse(Node currentNode) {
+                if (currentNode.left != null) {
+                    new Traverse(currentNode.left);
+                }
+                results.add(currentNode.value);
                 if (currentNode.right != null) {
                     new Traverse(currentNode.right);
                 }
